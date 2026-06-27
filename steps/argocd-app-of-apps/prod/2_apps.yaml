@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: apps-prod
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  labels:
+    layer: infrastructure
+    service: env
+    environment: prod
+    tier: apps
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  destination:
+    # NOTE: this is just a placeholder, the real namespace must be set in each manifest
+    namespace: default
+    # NOTE: this is not an error. The apps should be applied to argocd cluster and they are
+    #       referencing the correct cluster
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - SkipDryRunOnMissingResource=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    directory:
+      recurse: true
+    path: prod/apps
+    repoURL: git@github.com:hoverkraft-sh/argocd-app-of-apps.git
+    targetRevision: HEAD

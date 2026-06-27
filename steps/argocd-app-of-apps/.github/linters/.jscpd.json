@@ -1,0 +1,11 @@
+{
+	"threshold": 6,
+	"ignore": [
+		"**/.github/workflows/__pull-request-ci.yml",
+		"**/dev/apps/review-apps/*/template.yml.tpl",
+		"**/prod/1_manifests.yaml",
+		"**/prod/2_apps.yaml",
+		"**/tools/apps/01_traefik.yaml",
+		"**/values/external-dns-tools.yaml"
+	]
+}

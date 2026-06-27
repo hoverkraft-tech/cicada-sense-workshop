@@ -1,4 +1,4 @@
-# Step 04 - Add CD
+# Step 04 - Add CD (application repository)
 
 Goal: starting from the CI state and a ready GitOps repository, implement release and deployment workflows until you are close to [steps/03-add-cd](steps/03-add-cd).
 
@@ -84,6 +84,20 @@ Expected behavior:
 4. the deployment reuses the already-built images
 5. the desired state is written to your GitOps repository
 
+Inspect the GitOps repository diff after that first review deployment.
+
+You should see changes only in the review app slice:
+
+1. `dev/apps/review-apps/cicada-sense/`
+2. `dev/manifests/review-apps/cicada-sense/`
+
+What to verify in those changed files:
+
+1. the ArgoCD `Application` manifest now points to the review deployment chart revision
+2. the manifest namespace matches the pull request deployment namespace
+3. `argocd.argoproj.io/application-repository` and `argocd.argoproj.io/deployment-id` are present
+4. the backend, frontend, and live-data-generator image values point to the pull-request artifacts that CI already built
+
 This is the cheapest way to validate the deployment contract before you involve release tags.
 
 Read:
@@ -123,6 +137,13 @@ Test promotion in this order:
 5. confirm that deployment uses the existing tagged images
 6. run the same workflow for `production`
 7. confirm that production reuses the same promotion model instead of rebuilding
+
+For the GitOps repository content, verify this environment split:
+
+1. `uat` updates only `prod/apps/uat/cicada-sense/` and `prod/manifests/uat/cicada-sense/`
+2. `production` updates only `prod/apps/production/cicada-sense/` and `prod/manifests/production/cicada-sense/`
+3. both environments point to the release tag created by `release.yml`
+4. both environments keep the same backend, frontend, and live-data-generator artifact references for that promoted tag
 
 Read:
 

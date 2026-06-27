@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cicada-sense-uat
+  annotations:
+    app.kubernetes.io/instance: cicada-sense-uat
+    argocd.argoproj.io/sync-options: Prune=true
+    argocd.argoproj.io/sync-wave: "0"

@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: manifests-dev
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  labels:
+    layer: infrastructure
+    service: env
+    environment: dev
+    tier: manifests
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  destination:
+    # NOTE: this is just a placeholder, the real namespace must be set in each manifest
+    namespace: default
+    server: https://dev.example.com
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - SkipDryRunOnMissingResource=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    directory:
+      recurse: true
+    path: dev/manifests
+    repoURL: git@github.com:hoverkraft-sh/argocd-app-of-apps.git
+    targetRevision: HEAD

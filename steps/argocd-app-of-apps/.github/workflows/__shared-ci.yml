@@ -1,0 +1,21 @@
+---
+name: Internal - Common Continuous Integration tasks
+
+on: # yamllint disable-line rule:truthy
+  workflow_call:
+
+permissions: {}
+
+jobs:
+  linter:
+    uses: hoverkraft-tech/ci-github-common/.github/workflows/linter.yml@2334d395217f9811699dbd4ace9d8559e4d99e0d # 0.37.3
+    permissions:
+      actions: read
+      contents: read
+      issues: write
+      packages: read
+      pull-requests: write
+      security-events: write
+      statuses: write
+    with:
+      codeql-languages: "" # FIXME: Let default value when CodeQL will be available (paid feature)

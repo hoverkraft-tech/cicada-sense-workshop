@@ -1,0 +1,50 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cicada-sense-production
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/application-repository: cicada-sense
+    argocd.argoproj.io/environment: "production"
+    argocd.argoproj.io/sync-wave: "1"
+  labels:
+    layer: applications
+    service: cicada-sense
+    component: main
+    environment: prod
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  destination:
+    namespace: cicada-sense-production
+    server: https://prod.example.com
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - SkipDryRunOnMissingResource=true
+    automated:
+      prune: true
+      selfHeal: true
+  sources:
+    - repoURL: ghcr.io/hoverkraft-sh/cicada-sense/charts/application
+      targetRevision: "" # Will be updated by deploy workflow
+      chart: cicada-sense
+      helm:
+        values: |
+          ingress:
+            enabled: true
+            className: "traefik"
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt
+            hosts:
+              - host: cicada-sense.example.com # Will be updated by deploy workflow
+                paths:
+                  - path: /
+                    pathType: ImplementationSpecific
+            tls:
+              - secretName: cicada-sense-tls
+                hosts:
+                  - cicada-sense.example.com # Will be updated by deploy workflow

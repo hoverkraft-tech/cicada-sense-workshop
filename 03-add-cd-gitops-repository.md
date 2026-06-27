@@ -1,10 +1,14 @@
-# Step 03 - Add argocd-app-of-apps
+# Step 03 - Add argocd-app-of-apps (GitOps repository)
 
 Goal: prepare the GitOps delivery repository that will receive the deployment state for `cicada-sense`.
+
+Reference snapshot: [steps/argocd-app-of-apps](steps/argocd-app-of-apps)
 
 ## Outcome
 
 At the end of this step, you should have an initialized `argocd-app-of-apps` repository with a scaffolded `cicada-sense` application layout for review apps, UAT, and production.
+
+If you want a full repository checkpoint instead of comparing file by file against the template README, use [steps/argocd-app-of-apps](steps/argocd-app-of-apps).
 
 ## Step 1. Create the GitOps delivery repository
 
@@ -36,6 +40,8 @@ Useful options:
 
 This initialization step replaces the repository placeholders and removes the bootstrap script so the repository starts from a clean, usable GitOps state.
 
+Checkpoint: compare your repository root with [steps/argocd-app-of-apps](steps/argocd-app-of-apps) after initialization.
+
 ## Step 2. Create the `cicada-sense` application in the GitOps repository
 
 Once the GitOps repository is initialized, scaffold the application layout for this workshop.
@@ -61,6 +67,8 @@ This command creates the default review, UAT, and production directories for the
 
 After scaffolding, adjust the generated files with the real chart reference, ingress hosts, namespaces, and any environment-specific values needed for this workshop.
 
+Checkpoint: compare your generated `cicada-sense` folders with the ones under [steps/argocd-app-of-apps](steps/argocd-app-of-apps).
+
 ## Step 3. Validate the GitOps repository state
 
 Before you return to the application repository, confirm that the GitOps repository is usable.
@@ -77,9 +85,51 @@ Read:
 - https://github.com/hoverkraft-tech/argocd-app-of-apps-template#initialize-a-repository-created-from-this-template
 - https://github.com/hoverkraft-tech/argocd-app-of-apps-template#adding-a-new-application
 
+Dedicated snapshot:
+
+- [steps/argocd-app-of-apps](steps/argocd-app-of-apps)
+
+## Step 4. Know the final repository content
+
+The scaffolded repository is not the final state.
+
+Once you complete [04-add-cd-application-repository.md](04-add-cd-application-repository.md), the application repository deploy workflow writes the desired deployment state into this GitOps repository.
+
+The stable layout stays the same:
+
+```text
+argocd-app-of-apps/
+├── dev/apps/review-apps/cicada-sense/
+├── dev/manifests/review-apps/cicada-sense/
+├── prod/apps/uat/cicada-sense/
+├── prod/manifests/uat/cicada-sense/
+├── prod/apps/production/cicada-sense/
+└── prod/manifests/production/cicada-sense/
+```
+
+What changes after the first successful deployment:
+
+1. the ArgoCD `Application` manifest under `apps/` points to the released `application` Helm chart revision published by the application repository
+2. the target namespace in that `Application` manifest matches the deployed environment:
+	- review app: a pull-request-specific namespace
+	- UAT: the stable UAT namespace
+	- production: the stable production namespace
+3. the `Application` metadata carries deployment traceability annotations:
+	- `argocd.argoproj.io/application-repository`
+	- `argocd.argoproj.io/deployment-id`
+4. the Helm values embedded in the `Application` manifest contain the runtime image references for:
+	- `.backend.image`
+	- `.frontend.image`
+	- `.live-data-generator.api.image`
+	- `.live-data-generator.ui.image`
+5. each of those image references resolves to registry, repository, tag, and digest for the already-built artifacts; deployment reuses promoted artifacts instead of rebuilding them
+6. the matching extra manifest under `manifests/` uses the same namespace and instance naming as the `Application` manifest
+
+Treat that as the final checkpoint for the `argocd-app-of-apps` repository. If the deployment workflow does not update those fields, it is not targeting the GitOps repository correctly.
+
 ## Next step
 
-Once the GitOps repository is ready, continue with [04-add-cd.md](04-add-cd.md) to implement CD in the application repository.
+Once the GitOps repository is ready, continue with [04-add-cd-application-repository.md](04-add-cd-application-repository.md) to implement CD in the application repository.
 
 ## Exit criteria
 
@@ -89,6 +139,7 @@ Before you move on, confirm these points:
 2. you ran the template bootstrap command successfully
 3. you scaffolded the `cicada-sense` application in that repository
 4. the repository now contains review, UAT, and production application directories for `cicada-sense`
+5. you know which `apps/` and `manifests/` files will be updated by the deployment workflow in the next step
 
 ## If you get stuck
 

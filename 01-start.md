@@ -11,7 +11,7 @@ How to use the workshop:
 1. create a dedicated GitHub repository from `steps/01-start`
 2. do the work in that repository, not in this workshop repository
 3. read the Hoverkraft docs linked in each step before writing YAML
-4. use `steps/02-add-ci` and `steps/03-add-cd` only as checkpoints after you have tried the step yourself
+4. use `steps/02-add-ci`, `steps/03-add-cd`, and `steps/argocd-app-of-apps` only as checkpoints after you have tried the step yourself
 
 Important rule:
 
