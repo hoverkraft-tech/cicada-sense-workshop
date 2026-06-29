@@ -21,9 +21,9 @@ Required variables and secrets for this workshop:
 
 Read:
 
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/cd
-- https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/github-actions/
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/>
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/cd>
+- <https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/github-actions/>
 
 ## Step 2. Add release preparation
 
@@ -39,8 +39,8 @@ This workflow exists to keep release intent ready before promotion time.
 
 Read:
 
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/cd
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/multi-app
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/cd>
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/multi-app>
 
 ## Step 3. Add the deploy contract
 
@@ -68,9 +68,9 @@ The first environment to prove is the review app flow:
 
 Read:
 
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/cd
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/multi-app
-- https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/cicd-release-management/
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/cd>
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/multi-app>
+- <https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/cicd-release-management/>
 
 ## Step 4. Validate the review app flow
 
@@ -102,7 +102,7 @@ This is the cheapest way to validate the deployment contract before you involve 
 
 Read:
 
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/cd
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/cd>
 
 ## Step 5. Add the promotion workflow
 
@@ -122,9 +122,9 @@ Important detail: the published Hoverkraft CD guide is the source of truth. If y
 
 Read:
 
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/cd
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/multi-app
-- https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/cicd-release-management/
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/cd>
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/multi-app>
+- <https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/cicd-release-management/>
 
 ## Step 6. Validate UAT, then production
 
@@ -147,8 +147,8 @@ For the GitOps repository content, verify this environment split:
 
 Read:
 
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/cd
-- https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/cicd-release-management/
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/cd>
+- <https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/cicd-release-management/>
 
 ## Step 7. Know what the target snapshot includes
 
@@ -162,7 +162,7 @@ It does not add a dedicated preview cleanup workflow. If you read about `clean-d
 
 Read:
 
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/cd
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/cd>
 
 ## Exit criteria
 

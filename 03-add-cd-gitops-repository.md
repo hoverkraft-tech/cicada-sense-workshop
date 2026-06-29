@@ -16,7 +16,7 @@ Before implementing CD in the application repository, create the repository that
 
 Start from this template:
 
-- https://github.com/hoverkraft-tech/argocd-app-of-apps-template
+- <https://github.com/hoverkraft-tech/argocd-app-of-apps-template>
 
 What to do:
 
@@ -82,8 +82,8 @@ Check these points:
 
 Read:
 
-- https://github.com/hoverkraft-tech/argocd-app-of-apps-template#initialize-a-repository-created-from-this-template
-- https://github.com/hoverkraft-tech/argocd-app-of-apps-template#adding-a-new-application
+- <https://github.com/hoverkraft-tech/argocd-app-of-apps-template#initialize-a-repository-created-from-this-template>
+- <https://github.com/hoverkraft-tech/argocd-app-of-apps-template#adding-a-new-application>
 
 Dedicated snapshot:
 
@@ -111,17 +111,17 @@ What changes after the first successful deployment:
 
 1. the ArgoCD `Application` manifest under `apps/` points to the released `application` Helm chart revision published by the application repository
 2. the target namespace in that `Application` manifest matches the deployed environment:
-	- review app: a pull-request-specific namespace
-	- UAT: the stable UAT namespace
-	- production: the stable production namespace
+   - review app: a pull-request-specific namespace
+   - UAT: the stable UAT namespace
+   - production: the stable production namespace
 3. the `Application` metadata carries deployment traceability annotations:
-	- `argocd.argoproj.io/application-repository`
-	- `argocd.argoproj.io/deployment-id`
+   - `argocd.argoproj.io/application-repository`
+   - `argocd.argoproj.io/deployment-id`
 4. the Helm values embedded in the `Application` manifest contain the runtime image references for:
-	- `.backend.image`
-	- `.frontend.image`
-	- `.live-data-generator.api.image`
-	- `.live-data-generator.ui.image`
+   - `.backend.image`
+   - `.frontend.image`
+   - `.live-data-generator.api.image`
+   - `.live-data-generator.ui.image`
 5. each of those image references resolves to registry, repository, tag, and digest for the already-built artifacts; deployment reuses promoted artifacts instead of rebuilding them
 6. the matching extra manifest under `manifests/` uses the same namespace and instance naming as the `Application` manifest
 

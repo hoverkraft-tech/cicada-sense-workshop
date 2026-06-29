@@ -21,13 +21,13 @@ Important rule:
 
 Reference docs:
 
-- https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/
-- https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/github-actions/
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/ci
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/cd
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/multi-app
-- https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/cicd-release-management/
+- <https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/>
+- <https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/github-actions/>
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/>
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/ci>
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/cd>
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/multi-app>
+- <https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/cicd-release-management/>
 
 ## Outcome
 
@@ -41,8 +41,8 @@ At the end of this step, you should have your own GitHub repository based on [st
 
 Read:
 
-- https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/
-- https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/github-actions/
+- <https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/>
+- <https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/github-actions/>
 
 ## Step 2. Validate the local baseline
 
@@ -56,7 +56,7 @@ If the local baseline is not green, do not start writing workflows yet.
 
 Read:
 
-- https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/
+- <https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/>
 
 ## Step 3. Understand what is already solved
 
@@ -78,7 +78,7 @@ What is intentionally missing:
 
 Read:
 
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/>
 
 ## Step 4. Confirm the repository shape
 
@@ -95,7 +95,7 @@ This matters because you should follow the multi-app guide, not the single-app o
 
 Read:
 
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/multi-app
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/multi-app>
 
 ## Exit criteria
 

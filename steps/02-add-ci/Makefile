@@ -1,7 +1,7 @@
 # Makefile for Cicada Sense.
 # Root commands orchestrate Docker Compose only; Node tooling lives inside app containers.
 
-.PHONY: help install setup setup-traefik build up down logs shell lint lint-fix typecheck test docs-check ci helm clean
+.PHONY: help install setup build up down logs shell lint lint-fix typecheck test docs-check ci helm clean
 
 MAKEFLAGS += --silent
 .DEFAULT_GOAL := help
@@ -21,41 +21,18 @@ NC=\033[0m
 help: ## Show help message
 	@awk 'BEGIN {FS = ":.*##"; printf "\n$(GREEN)Cicada Sense$(NC)\n\nUsage:\n  make $(YELLOW)<target>$(NC)\n"} /^[$$()% 0-9a-zA-Z_-]+:.*?##/ { printf "  $(YELLOW)%-26s$(NC) %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 
-install: setup-traefik ## Build local app images and install app dependencies inside them
+install: ## Build local app images and install app dependencies inside them
 	@$(COMPOSE) build $(APP_SERVICES)
 
-setup: setup-traefik up ## Build and start the local stack
+setup: up ## Build and start the local stack
 	@echo "$(GREEN)Application available at:$(NC)"
-	@echo "  Dashboard: $(YELLOW)http://cicada-sense.localhost$(NC)"
-	@echo "  Generator: $(YELLOW)http://generator.cicada-sense.localhost$(NC)"
-	@echo "  Traefik:   $(YELLOW)http://traefik.localhost:8080$(NC)"
+	@echo "  Dashboard: $(YELLOW)http://app.cicada-sense.<your base domain>$(NC)"
+	@echo "  Generator: $(YELLOW)http://generator.cicada-sense.<your base domain>$(NC)"
 
-setup-traefik: ## Setup the shared local Traefik gateway
-	@TRAEFIK_NETWORK=traefik-proxy; \
-	TRAEFIK_NAME=traefik-local; \
-	docker network inspect $$TRAEFIK_NETWORK >/dev/null 2>&1 || (echo "Creating traefik network" && docker network create $$TRAEFIK_NETWORK >/dev/null); \
-	if docker ps -a --format '{{.Names}}' | grep -q "^$$TRAEFIK_NAME$$"; then \
-		echo "Traefik container already exists"; \
-		if [ "$$(docker inspect -f '{{.State.Running}}' $$TRAEFIK_NAME)" != "true" ]; then echo "Starting traefik container" && docker start $$TRAEFIK_NAME >/dev/null; fi; \
-		if ! docker inspect -f '{{json .NetworkSettings.Networks}}' $$TRAEFIK_NAME | grep -q '"'$$TRAEFIK_NETWORK'"'; then \
-			echo "Traefik container is not connected to '$$TRAEFIK_NETWORK' network" && exit 1; \
-		fi; \
-	else \
-		echo "Creating traefik container"; \
-		docker pull traefik:v3.6 >/dev/null; \
-		docker run -d \
-			-p 80:80 -p 8080:8080 \
-			-v /var/run/docker.sock:/var/run/docker.sock:ro \
-			--restart unless-stopped --name $$TRAEFIK_NAME --network=$$TRAEFIK_NETWORK \
-			--label "traefik.enable=true" --label "traefik.http.routers.traefik.rule=Host(\`traefik.localhost\`)" --label "traefik.http.routers.traefik.service=api@internal" \
-			traefik:v3.6 \
-			--api.insecure=true --providers.docker.exposedByDefault=false --providers.docker.network=$$TRAEFIK_NETWORK --entrypoints.http.address=:80 --accessLog=true >/dev/null; \
-	fi
-
-build: setup-traefik ## Build local Docker images, optionally with SERVICE=<name>
+build: ## Build local Docker images, optionally with SERVICE=<name>
 	@$(COMPOSE) build $(SERVICE)
 
-up: setup-traefik ## Start the local application stack
+up: ## Start the local application stack
 	@$(COMPOSE) up --remove-orphans --build -d --wait --wait-timeout $(APP_START_WAIT_TIMEOUT)
 
 down: ## Stop the local application stack
@@ -68,11 +45,11 @@ shell: ## Open a service shell with SERVICE=<name>
 	@if [ -z "$(SERVICE)" ]; then echo "$(RED)Usage: make shell SERVICE=backend$(NC)"; exit 1; fi
 	@$(COMPOSE) run --rm --no-deps --remove-orphans -it $(SERVICE) sh
 
-lint: setup-traefik ## Run app lint inside containers
+lint: ## Run app lint inside containers
 	$(call npm-app,run lint)
 	$(call run_linter)
 
-lint-fix: setup-traefik ## Run app lint and fix inside containers
+lint-fix: ## Run app lint and fix inside containers
 	$(call npm-app,run lint:fix)
 	$(MAKE) linter-fix
 
@@ -102,10 +79,10 @@ define run_linter
 		$$LINTER_IMAGE
 endef
 
-typecheck: setup-traefik ## Run TypeScript checks inside containers
+typecheck: ## Run TypeScript checks inside containers
 	$(call npm-app,run typecheck)
 
-test: setup-traefik ## Run unit and integration tests inside containers
+test: ## Run unit and integration tests inside containers
 	@$(COMPOSE) up -d --wait postgres redis
 	$(call npm-app, run test:ci)
 

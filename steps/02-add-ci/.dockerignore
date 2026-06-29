@@ -7,5 +7,6 @@
 **/dist-types
 **/coverage
 .git
+.github
 *.log
 .ci-github-nodejs-cache

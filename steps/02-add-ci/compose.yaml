@@ -27,8 +27,8 @@ services:
       CHOKIDAR_USEPOLLING: "1"
       HOME: /tmp/node-home
       NPM_CONFIG_CACHE: /tmp/node-home/.npm
-    expose:
-      - "3000"
+    ports:
+      - 3000:3000
     depends_on:
       postgres:
         condition: service_healthy
@@ -36,14 +36,6 @@ services:
         condition: service_healthy
     networks:
       - cicada-sense-network
-      - traefik-proxy
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.cicada-backend.rule=Host(`cicada-sense.localhost`) && (PathPrefix(`/api`) || PathPrefix(`/socket.io`))"
-      - "traefik.http.routers.cicada-backend.entrypoints=http"
-      - "traefik.http.routers.cicada-backend.priority=100"
-      - "traefik.http.services.cicada-backend.loadbalancer.server.port=3000"
-      - "traefik.docker.network=traefik-proxy"
     healthcheck:
       test:
         [
@@ -82,21 +74,13 @@ services:
       VITE_DEV_PROXY_TARGET: http://backend:3000
       HOME: /tmp/node-home
       NPM_CONFIG_CACHE: /tmp/node-home/.npm
-    expose:
-      - "5173"
+    ports:
+      - 5173:5173
     depends_on:
       backend:
         condition: service_healthy
     networks:
       - cicada-sense-network
-      - traefik-proxy
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.cicada-frontend.rule=Host(`cicada-sense.localhost`) && !PathPrefix(`/api`) && !PathPrefix(`/socket.io`)"
-      - "traefik.http.routers.cicada-frontend.entrypoints=http"
-      - "traefik.http.routers.cicada-frontend.priority=1"
-      - "traefik.http.services.cicada-frontend.loadbalancer.server.port=5173"
-      - "traefik.docker.network=traefik-proxy"
 
   live-data-generator-api:
     build:
@@ -124,21 +108,13 @@ services:
       CHOKIDAR_USEPOLLING: "1"
       HOME: /tmp/node-home
       NPM_CONFIG_CACHE: /tmp/node-home/.npm
-    expose:
-      - "3100"
+    ports:
+      - 3100:3100
     depends_on:
       backend:
         condition: service_healthy
     networks:
       - cicada-sense-network
-      - traefik-proxy
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.cicada-generator-api.rule=Host(`generator.cicada-sense.localhost`) && PathPrefix(`/api`)"
-      - "traefik.http.routers.cicada-generator-api.entrypoints=http"
-      - "traefik.http.routers.cicada-generator-api.service=cicada-generator-api"
-      - "traefik.http.services.cicada-generator-api.loadbalancer.server.port=3100"
-      - "traefik.docker.network=traefik-proxy"
     healthcheck:
       test:
         [
@@ -177,21 +153,13 @@ services:
       VITE_GENERATOR_PROXY_TARGET: http://live-data-generator-api:3100
       HOME: /tmp/node-home
       NPM_CONFIG_CACHE: /tmp/node-home/.npm
-    expose:
-      - "5174"
+    ports:
+      - 5174:5174
     depends_on:
       live-data-generator-api:
         condition: service_healthy
     networks:
       - cicada-sense-network
-      - traefik-proxy
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.cicada-generator-ui.rule=Host(`generator.cicada-sense.localhost`) && !PathPrefix(`/api`)"
-      - "traefik.http.routers.cicada-generator-ui.entrypoints=http"
-      - "traefik.http.routers.cicada-generator-ui.service=cicada-generator-ui"
-      - "traefik.http.services.cicada-generator-ui.loadbalancer.server.port=5174"
-      - "traefik.docker.network=traefik-proxy"
 
   postgres:
     image: postgres:18-alpine
@@ -238,8 +206,6 @@ services:
 networks:
   cicada-sense-network:
     driver: bridge
-  traefik-proxy:
-    external: true
 
 volumes:
   object-storage-data:

@@ -10,10 +10,10 @@ At the end of this step, your repository should validate pull requests and `main
 
 Read these pages first:
 
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/ci
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/multi-app
-- https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/github-actions/
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/>
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/ci>
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/multi-app>
+- <https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/github-actions/>
 
 You are not trying to invent a pipeline. You are implementing an existing contract.
 
@@ -33,8 +33,8 @@ The important part is the contract and the sequence, not decorative YAML.
 
 Read:
 
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/ci
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/multi-app
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/ci>
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/multi-app>
 
 ## Step 3. Add the pull request entrypoint
 
@@ -51,8 +51,8 @@ Rules:
 
 Read:
 
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/ci
-- https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/github-actions/
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/ci>
+- <https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/github-actions/>
 
 ## Step 4. Add the mainline entrypoint
 
@@ -69,9 +69,9 @@ Rules:
 
 Read:
 
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/ci
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/multi-app
-- https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/github-actions/
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/ci>
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/multi-app>
+- <https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/github-actions/>
 
 ## Step 5. Validate CI behavior
 
@@ -94,8 +94,8 @@ Expected `main` behavior after merge:
 
 Read:
 
-- https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/ci
-- https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/github-actions/
+- <https://docs.hoverkraft.cloud/docs/methodology/golden-paths/application/ci-cd/github/ci>
+- <https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/github-actions/>
 
 ## Step 6. Reach parity with the snapshot
 
@@ -114,7 +114,7 @@ These are useful, but they are not the core CI objective. The real learning targ
 
 Read:
 
-- https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/github-actions/
+- <https://docs.hoverkraft.cloud/docs/methodology/best-practices/ci-cd/github-actions/>
 
 ## Exit criteria
 
