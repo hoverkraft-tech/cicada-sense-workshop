@@ -8,14 +8,14 @@ The step folders in this repository are snapshots, not the exercise. Work in you
 
 How to use the workshop:
 
-1. create a dedicated GitHub repository from `steps/01-start`
+1. create a dedicated GitHub repository from `steps/05-start`
 2. do the work in that repository, not in this workshop repository
 3. read the Hoverkraft docs linked in each step before writing YAML
-4. use `steps/02-add-ci`, `steps/03-add-cd`, and `steps/argocd-app-of-apps` only as checkpoints after you have tried the step yourself
+4. use `steps/06-add-ci`, `steps/09-add-cd-application-repository`, and `steps/argocd-app-of-apps` only as checkpoints after you have tried the step yourself
 
 Important rule:
 
-1. the application code, Dockerfiles, and Helm charts are already in place in `01-start`
+1. the application code, Dockerfiles, and Helm charts are already in place in `05-start`
 2. the workshop delta is mostly under `.github/workflows/`
 3. if you think you need to change application code to make CI or CD work, stop and re-check the workflow contract first
 
@@ -31,11 +31,11 @@ Reference docs:
 
 ## Outcome
 
-At the end of this step, you should have your own GitHub repository based on [steps/01-start](steps/01-start), running locally, with no CI/CD workflow yet.
+At the end of this step, you should have your own GitHub repository based on [steps/05-start](steps/05-start), running locally, with no CI/CD workflow yet.
 
 ## Step 1. Create the learner repository
 
-1. Copy the content of [steps/01-start](steps/01-start) into a dedicated GitHub repository.
+1. Copy the content of [steps/05-start](steps/05-start) into a dedicated GitHub repository.
 2. Keep the repository structure as-is.
 3. Push it to GitHub on a `main` branch.
 
@@ -62,7 +62,7 @@ Read:
 
 Before touching GitHub Actions, be clear about the scope.
 
-What is already done in `01-start`:
+What is already done in `05-start`:
 
 1. application code
 2. Dockerfiles
@@ -101,13 +101,13 @@ Read:
 
 Before moving to the next step, confirm these points:
 
-1. your repository is based on [steps/01-start](steps/01-start)
+1. your repository is based on [steps/05-start](steps/05-start)
 2. `make setup` works locally
 3. `make ci` works locally
 4. there is no `.github/workflows/` CI/CD implementation yet
 
 ## If you get stuck
 
-1. compare your repository structure with [steps/01-start](steps/01-start)
+1. compare your repository structure with [steps/05-start](steps/05-start)
 2. do not invent new application structure
 3. do not start with CD before the baseline is stable

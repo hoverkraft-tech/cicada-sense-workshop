@@ -1,6 +1,6 @@
 # Step 02 - Add CI
 
-Goal: starting from [steps/01-start](steps/01-start), implement GitHub Actions CI until you are close to [steps/02-add-ci](steps/02-add-ci).
+Goal: starting from [steps/05-start](steps/05-start), implement GitHub Actions CI until you are close to [steps/06-add-ci](steps/06-add-ci).
 
 ## Outcome
 
@@ -99,7 +99,7 @@ Read:
 
 ## Step 6. Reach parity with the snapshot
 
-If you want to get close to [steps/02-add-ci](steps/02-add-ci), add the repo-hygiene workflows present in the snapshot:
+If you want to get close to [steps/06-add-ci](steps/06-add-ci), add the repo-hygiene workflows present in the snapshot:
 
 1. `greetings.yml`
 2. `semantic-pull-request.yml`
@@ -124,10 +124,10 @@ Before moving to the next step, confirm these points:
 2. PR and `main` workflows are thin wrappers
 3. CI runs inside dedicated `ci` images
 4. chart validation uses the built runtime images
-5. your result is close to [steps/02-add-ci](steps/02-add-ci)
+5. your result is close to [steps/06-add-ci](steps/06-add-ci)
 
 ## If you get stuck
 
-1. compare one workflow file at a time with [steps/02-add-ci](steps/02-add-ci)
+1. compare one workflow file at a time with [steps/06-add-ci](steps/06-add-ci)
 2. do not duplicate logic between PR and `main`
 3. if you are changing application code, you are probably solving the wrong problem
