@@ -52,10 +52,10 @@ Learners should :
 
 Start with the step guide that matches your current stage:
 
-1. [01-start.md](01-start.md) - prepare the baseline repository and understand the repository shape
-2. [02-add-ci.md](02-add-ci.md) - implement CI in GitHub Actions
-3. [03-add-cd-gitops-repository.md](03-add-cd-gitops-repository.md) - prepare the GitOps delivery repository and scaffold `cicada-sense`
-4. [04-add-cd-application-repository.md](04-add-cd-application-repository.md) - implement release and deployment workflows
+1. [05-start.md](05-start.md) - prepare the baseline repository and understand the repository shape
+2. [06-add-ci.md](06-add-ci.md) - implement CI in GitHub Actions
+3. [08-add-cd-gitops-repository.md](08-add-cd-gitops-repository.md) - prepare the GitOps delivery repository and scaffold `cicada-sense`
+4. [09-add-cd-application-repository.md](09-add-cd-application-repository.md) - implement release and deployment workflows
 
 Reference snapshot for the external GitOps repository:
 

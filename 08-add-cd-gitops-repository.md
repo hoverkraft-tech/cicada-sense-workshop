@@ -93,7 +93,7 @@ Dedicated snapshot:
 
 The scaffolded repository is not the final state.
 
-Once you complete [04-add-cd-application-repository.md](04-add-cd-application-repository.md), the application repository deploy workflow writes the desired deployment state into this GitOps repository.
+Once you complete [09-add-cd-application-repository.md](09-add-cd-application-repository.md), the application repository deploy workflow writes the desired deployment state into this GitOps repository.
 
 The stable layout stays the same:
 
@@ -129,7 +129,7 @@ Treat that as the final checkpoint for the `argocd-app-of-apps` repository. If t
 
 ## Next step
 
-Once the GitOps repository is ready, continue with [04-add-cd-application-repository.md](04-add-cd-application-repository.md) to implement CD in the application repository.
+Once the GitOps repository is ready, continue with [09-add-cd-application-repository.md](09-add-cd-application-repository.md) to implement CD in the application repository.
 
 ## Exit criteria
 
