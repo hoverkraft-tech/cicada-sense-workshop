@@ -12,13 +12,15 @@ Start this step only after the CI workflows from [steps/06-add-ci](steps/06-add-
 In this step, you work in the application repository, not in `argocd-app-of-apps`.
 
 Before writing CD workflows, configure the repository settings they depend on.
-Set these in the application repository that will run the workflows.
+For this workshop, these are organization-level GitHub Actions variables and secrets.
+The application repository is expected to inherit them from the workshop organization.
 
-Set these first. Otherwise, your first workflow runs may fail for missing configuration instead of revealing real CD issues.
+Do not recreate them at repository level unless the workshop organizers explicitly tell you to do so.
+The useful check here is to confirm that they already exist at organization level. Otherwise, your first workflow runs may fail for missing configuration instead of revealing real CD issues.
 
 In GitHub, the shortest path is usually:
 
-1. open the application repository
+1. open the workshop organization
 2. open `Settings`
 3. open `Secrets and variables`
 4. open `Actions`
@@ -73,23 +75,23 @@ A small structure like this is enough:
 name: Prepare release
 
 on:
-	push:
-		branches: [main]
-	pull_request:
-		types: [opened, reopened, synchronize]
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, reopened, synchronize]
 
 concurrency:
-	group: ${{ github.workflow }}-${{ github.ref }}
-	cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions: {}
 
 jobs:
-	release:
-		uses: hoverkraft-tech/ci-github-publish/.github/workflows/prepare-release.yml@<ref>
-		permissions:
-			contents: read
-			pull-requests: write
+  release:
+    uses: hoverkraft-tech/ci-github-publish/.github/workflows/prepare-release.yml@<ref>
+    permissions:
+      contents: read
+      pull-requests: write
 ```
 
 This workflow exists to keep release intent ready before promotion time.
@@ -127,56 +129,56 @@ A structure close to this works well:
 name: Deploy
 
 on:
-	issue_comment:
-		types: [created]
-	workflow_call:
-		inputs:
-			tag:
-				required: true
-				type: string
-			environment:
-				required: true
-				type: string
-		secrets:
-			CI_BOT_APP_PRIVATE_KEY:
-				required: true
+  issue_comment:
+    types: [created]
+  workflow_call:
+    inputs:
+      tag:
+        required: true
+        type: string
+      environment:
+        required: true
+        type: string
+    secrets:
+      CI_BOT_APP_PRIVATE_KEY:
+        required: true
 
 permissions: {}
 
 jobs:
-	deploy:
-		uses: hoverkraft-tech/ci-github-publish/.github/workflows/deploy-chart.yml@<ref>
-		permissions:
-			actions: read
-			contents: write
-			deployments: write
-			id-token: write
-			issues: write
-			packages: write
-			pull-requests: write
-		secrets:
-			oci-registry-password: ${{ secrets.GITHUB_TOKEN }}
-			github-app-key: ${{ secrets.CI_BOT_APP_PRIVATE_KEY }}
-		with:
-			url: ${{ (inputs.environment == 'uat' && vars.UAT_URL) || (inputs.environment == 'production' && vars.PRODUCTION_URL) || vars.REVIEW_APPS_URL }}
-			tag: ${{ inputs.tag }}
-			environment: ${{ inputs.environment }}
-			github-app-client-id: ${{ vars.CI_BOT_APP_CLIENT_ID }}
-			deploy-parameters: |
-				{ "repository": "${{ github.repository_owner}}/argocd-app-of-apps" }
-			images: |
-				[
-					{ "name": "backend", "context": ".", "dockerfile": "./docker/backend/Dockerfile", "target": "prod", "platforms": ["linux/amd64"] },
-					{ "name": "frontend", "context": ".", "dockerfile": "./docker/frontend/Dockerfile", "target": "prod", "platforms": ["linux/amd64"] },
-					{ "name": "live-data-generator", "context": ".", "dockerfile": "./docker/live-data-generator/Dockerfile", "target": "prod", "platforms": ["linux/amd64"] }
-				]
-			chart-values: |
-				[
-					{ "path": ".backend.image", "image": "backend" },
-					{ "path": ".frontend.image", "image": "frontend" },
-					{ "path": ".live-data-generator.api.image", "image": "live-data-generator" },
-					{ "path": ".live-data-generator.ui.image", "image": "live-data-generator" }
-				]
+  deploy:
+    uses: hoverkraft-tech/ci-github-publish/.github/workflows/deploy-chart.yml@<ref>
+    permissions:
+      actions: read
+      contents: write
+      deployments: write
+      id-token: write
+      issues: write
+      packages: write
+      pull-requests: write
+    secrets:
+      oci-registry-password: ${{ secrets.GITHUB_TOKEN }}
+      github-app-key: ${{ secrets.CI_BOT_APP_PRIVATE_KEY }}
+    with:
+      url: ${{ (inputs.environment == 'uat' && vars.UAT_URL) || (inputs.environment == 'production' && vars.PRODUCTION_URL) || vars.REVIEW_APPS_URL }}
+      tag: ${{ inputs.tag }}
+      environment: ${{ inputs.environment }}
+      github-app-client-id: ${{ vars.CI_BOT_APP_CLIENT_ID }}
+      deploy-parameters: |
+        { "repository": "${{ github.repository_owner}}/argocd-app-of-apps" }
+      images: |
+        [
+          { "name": "backend", "context": ".", "dockerfile": "./docker/backend/Dockerfile", "target": "prod", "platforms": ["linux/amd64"] },
+          { "name": "frontend", "context": ".", "dockerfile": "./docker/frontend/Dockerfile", "target": "prod", "platforms": ["linux/amd64"] },
+          { "name": "live-data-generator", "context": ".", "dockerfile": "./docker/live-data-generator/Dockerfile", "target": "prod", "platforms": ["linux/amd64"] }
+        ]
+      chart-values: |
+        [
+          { "path": ".backend.image", "image": "backend" },
+          { "path": ".frontend.image", "image": "frontend" },
+          { "path": ".live-data-generator.api.image", "image": "live-data-generator" },
+          { "path": ".live-data-generator.ui.image", "image": "live-data-generator" }
+        ]
 ```
 
 What to pay attention to in that snippet:
@@ -274,48 +276,48 @@ A small structure like this is enough:
 name: Release
 
 on:
-	workflow_dispatch:
-		inputs:
-			environment:
-				description: Environment to deploy to
-				required: true
-				type: choice
-				options:
-					- uat
-					- production
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to deploy to
+        required: true
+        type: choice
+        options:
+          - uat
+          - production
 
 permissions: {}
 
 jobs:
-	release:
-		runs-on: ubuntu-latest
-		permissions:
-			contents: write
-			pull-requests: read
-		outputs:
-			tag: ${{ steps.create-release.outputs.tag }}
-		steps:
-			- id: create-release
-				uses: hoverkraft-tech/ci-github-publish/actions/release/create@<ref>
-				with:
-					prerelease: ${{ inputs.environment == 'uat' }}
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
+    outputs:
+      tag: ${{ steps.create-release.outputs.tag }}
+    steps:
+      - id: create-release
+        uses: hoverkraft-tech/ci-github-publish/actions/release/create@<ref>
+        with:
+          prerelease: ${{ inputs.environment == 'uat' }}
 
-	deploy:
-		needs: [release]
-		uses: ./.github/workflows/deploy.yml
-		permissions:
-			actions: read
-			contents: write
-			deployments: write
-			id-token: write
-			issues: write
-			packages: write
-			pull-requests: write
-		with:
-			tag: ${{ needs.release.outputs.tag }}
-			environment: ${{ inputs.environment }}
-		secrets:
-			CI_BOT_APP_PRIVATE_KEY: ${{ secrets.CI_BOT_APP_PRIVATE_KEY }}
+  deploy:
+    needs: [release]
+    uses: ./.github/workflows/deploy.yml
+    permissions:
+      actions: read
+      contents: write
+      deployments: write
+      id-token: write
+      issues: write
+      packages: write
+      pull-requests: write
+    with:
+      tag: ${{ needs.release.outputs.tag }}
+      environment: ${{ inputs.environment }}
+    secrets:
+      CI_BOT_APP_PRIVATE_KEY: ${{ secrets.CI_BOT_APP_PRIVATE_KEY }}
 ```
 
 Keep this workflow thin. Its job is promotion orchestration, not deployment logic duplication.

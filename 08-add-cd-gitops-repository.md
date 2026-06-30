@@ -91,7 +91,101 @@ This command creates the default review, UAT, and production directories for the
 5. `prod/apps/production/cicada-sense/`
 6. `prod/manifests/production/cicada-sense/`
 
-After scaffolding, adjust the generated files with the real chart reference, ingress hosts, namespaces, and any environment-specific values needed for this workshop.
+After scaffolding, adjust the generated files deliberately. The easiest approach is to compare them with the matching files under [steps/argocd-app-of-apps](steps/argocd-app-of-apps) and align the same fields.
+
+A practical review loop from the GitOps repository root looks like this:
+
+```bash
+sed -n '1,200p' dev/apps/review-apps/cicada-sense/template.yml.tpl
+sed -n '1,120p' dev/manifests/review-apps/cicada-sense/template.yml.tpl
+sed -n '1,200p' prod/apps/uat/cicada-sense/cicada-sense.yml
+sed -n '1,120p' prod/manifests/uat/cicada-sense/cicada-sense.yml
+sed -n '1,200p' prod/apps/production/cicada-sense/cicada-sense.yml
+sed -n '1,120p' prod/manifests/production/cicada-sense/cicada-sense.yml
+```
+
+A target state close to this is expected for the application files:
+
+```yaml
+# review app template
+spec:
+   destination:
+      namespace: cicada-sense-review
+      server: https://dev.example.com
+   sources:
+      - repoURL: ghcr.io/hoverkraft-sh/cicada-sense/charts/application
+         chart: cicada-sense
+         helm:
+            values: |
+               ingress:
+                  hosts:
+                     - host: cicada-sense-review.example.com
+```
+
+```yaml
+# uat application
+spec:
+   destination:
+      namespace: cicada-sense-uat
+      server: https://prod.example.com
+   sources:
+      - repoURL: ghcr.io/hoverkraft-sh/cicada-sense/charts/application
+         chart: cicada-sense
+         helm:
+            values: |
+               ingress:
+                  hosts:
+                     - host: cicada-sense-uat.example.com
+```
+
+```yaml
+# production application
+spec:
+   destination:
+      namespace: cicada-sense-production
+      server: https://prod.example.com
+   sources:
+      - repoURL: ghcr.io/hoverkraft-sh/cicada-sense/charts/application
+         chart: cicada-sense
+         helm:
+            values: |
+               ingress:
+                  hosts:
+                     - host: cicada-sense.example.com
+```
+
+At minimum, review these files and fields:
+
+1. `dev/apps/review-apps/cicada-sense/template.yml.tpl`
+   - `spec.destination.server`: the dev cluster URL
+   - `spec.sources[0].repoURL`: the chart repository reference used for this workshop
+   - the review ingress host names under `helm.values.ingress.hosts` and `helm.values.ingress.tls.hosts`
+2. `dev/manifests/review-apps/cicada-sense/template.yml.tpl`
+   - the review namespace name
+   - the matching `app.kubernetes.io/instance` annotation
+3. `prod/apps/uat/cicada-sense/cicada-sense.yml`
+   - `spec.destination.namespace`: `cicada-sense-uat`
+   - `spec.destination.server`: the production cluster URL used for UAT in this workshop
+   - the UAT ingress host names
+4. `prod/manifests/uat/cicada-sense/cicada-sense.yml`
+   - the namespace name
+   - the matching `app.kubernetes.io/instance` annotation
+5. `prod/apps/production/cicada-sense/cicada-sense.yml`
+   - `spec.destination.namespace`: `cicada-sense-production`
+   - `spec.destination.server`: the production cluster URL
+   - the production ingress host names
+6. `prod/manifests/production/cicada-sense/cicada-sense.yml`
+   - the namespace name
+   - the matching `app.kubernetes.io/instance` annotation
+
+What to leave alone for now:
+
+1. keep `targetRevision` empty where the file says the deploy workflow will update it later
+2. do not try to add runtime image values manually in this step
+3. do not try to simulate deployment metadata yet; the application deploy workflow will write that later
+
+If you want a simple rule: in this step, you prepare the GitOps file structure, cluster targets, namespaces, and hostnames. The future deploy workflow will fill the release-specific chart revision and image references.
+
 Commit this scaffolded application state before returning to the application repository:
 
 ```bash
