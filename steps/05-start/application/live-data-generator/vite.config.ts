@@ -10,7 +10,7 @@ export default defineConfig({
     target: "esnext",
   },
   server: {
-    allowedHosts: ["live-data-generator", "cicada-sense-generator.localhost"],
+    allowedHosts: true,
     host: "0.0.0.0",
     port: 5174,
     proxy: {
