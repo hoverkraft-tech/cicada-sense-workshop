@@ -7,19 +7,6 @@ on: # yamllint disable-line rule:truthy
 permissions: {}
 
 jobs:
-  linter:
-    uses: hoverkraft-tech/ci-github-common/.github/workflows/linter.yml@624be17604ee0a7378488191aacb35851e7cf001 # 0.37.1
-    permissions:
-      actions: read
-      contents: read
-      issues: write
-      packages: read
-      pull-requests: write
-      security-events: write
-      statuses: write
-    with:
-      codeql-languages: "" # FIXME: Let default value when CodeQL will be available (paid feature)
-
   build-ci:
     uses: hoverkraft-tech/ci-github-container/.github/workflows/docker-build-images.yml@c9088e8447c5a8be45157e17701023fc50ccb1c0 # 0.37.2
     permissions:
@@ -114,8 +101,6 @@ jobs:
             "/usr/src/app": "${{ matrix.path }}"
           }
         }
-      code-ql: "" # FIXME: Set `typescript` when CodeQL will be available (paid feature)
-      dependency-review: false # FIXME: Set `true` when Dependency Review will be available (paid feature)
     secrets:
       container-password: ${{ secrets.GITHUB_TOKEN }}
 
