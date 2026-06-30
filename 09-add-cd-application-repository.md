@@ -196,15 +196,18 @@ Be strict about responsibility boundaries:
 
 Build this workflow around the review app path first. That is the cheapest environment to validate because it proves the contract before you involve release tags or production environments.
 
+Important constraint: the `/deploy` comment flow uses the workflow definition available on `main`. That means `deploy.yml` must be merged to `main` before the pull request comment trigger can be tested reliably.
+
 Match the contract field by field. Do not improvise the inputs, image mapping, or deployment model.
 
 The first environment to prove is the review app flow:
 
-1. open a pull request
-2. let CI publish the pull-request images
-3. trigger deployment with `/deploy`
-4. confirm the deployment resolves against `REVIEW_APPS_URL`
-5. confirm the deployment updates your `argocd-app-of-apps` repository rather than rebuilding anything
+1. merge the CD workflow files to `main` so the `/deploy` workflow exists on the default branch
+2. open a new pull request
+3. let CI publish the pull-request images
+4. trigger deployment with `/deploy`
+5. confirm the deployment resolves against `REVIEW_APPS_URL`
+6. confirm the deployment updates your `argocd-app-of-apps` repository rather than rebuilding anything
 
 Read:
 
@@ -213,6 +216,7 @@ Read:
 ## Step 4. Validate the review app flow
 
 Before promoting anything to UAT or production, validate the preview flow on a pull request.
+That pull request should be opened after the CD workflows have already been merged to `main`.
 
 Expected behavior:
 
@@ -336,8 +340,8 @@ Read:
 
 Test promotion in this order:
 
-1. validate the review app flow on a pull request
-2. merge your CD workflows to `main`
+1. merge your CD workflows to `main`
+2. validate the review app flow on a new pull request with `/deploy`
 3. run `release.yml` manually for `uat`
 4. confirm that a prerelease tag is created
 5. confirm that deployment uses the existing tagged images
