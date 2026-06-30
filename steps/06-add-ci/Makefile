@@ -97,7 +97,7 @@ helm-tests: ## Run Helm chart checks
 	@helm dependency build ./charts/application
 	@helm template cicada-sense ./charts/application --namespace cicada-sense >/dev/null
 
-ci: build helm-docs lint-fix typecheck test helm-tests ## Run the full containerized validation suite
+ci: build helm-docs typecheck test helm-tests ## Run the full containerized validation suite
 
 clean: ## Remove generated containers, volumes, and ignored local artifacts
 	@$(COMPOSE) down --volumes --remove-orphans
