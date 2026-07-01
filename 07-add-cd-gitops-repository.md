@@ -73,7 +73,7 @@ The core addition looks like this:
          contents: write
       steps:
          - name: Wait before finishing deployment
-            run: sleep 120
+            run: sleep 180
 
          - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
             id: generate-token

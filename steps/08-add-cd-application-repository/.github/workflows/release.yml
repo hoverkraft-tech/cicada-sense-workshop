@@ -16,23 +16,7 @@ on: # yamllint disable-line rule:truthy
 permissions: {}
 
 jobs:
-  # TODO: re-enable CI job when we have a proper CI workflow
-  # ci:
-  #   name: Continuous Integration
-  #   uses: ./.github/workflows/__shared-ci.yml
-  #   permissions:
-  #     actions: read
-  #     checks: write
-  #     contents: read
-  #     id-token: write
-  #     issues: write
-  #     packages: write
-  #     pull-requests: write
-  #     security-events: write
-  #     statuses: write
-
   release:
-    # needs: [ci]
     name: Release
     runs-on: ubuntu-latest
     permissions:
