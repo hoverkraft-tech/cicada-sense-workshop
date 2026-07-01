@@ -1,15 +1,15 @@
-# Step 08 - Add argocd-app-of-apps (GitOps repository)
+# Step 07 - Add argocd-app-of-apps (GitOps repository)
 
 Goal: prepare the GitOps delivery repository that will receive the deployment state for `cicada-sense`.
 
-Reference snapshot: [steps/argocd-app-of-apps](steps/argocd-app-of-apps)
+Reference snapshot folder for Step 07: [steps/07-add-cd-gitops-repository](steps/07-add-cd-gitops-repository)
 
 ## Outcome
 
 At the end of this step, you should have an initialized `argocd-app-of-apps` repository with a scaffolded `cicada-sense` application layout for review apps, UAT, and production.
 This is a separate repository from the application repository.
 
-If you want a full repository checkpoint instead of comparing file by file against the template README, use [steps/argocd-app-of-apps](steps/argocd-app-of-apps).
+If you want a full repository checkpoint instead of comparing file by file against the template README, use [steps/07-add-cd-gitops-repository](steps/07-add-cd-gitops-repository).
 
 ## Step 1. Create the GitOps delivery repository
 
@@ -65,7 +65,7 @@ git push
 
 At this point, you should have one clean commit that represents "template initialized for my org and domains".
 
-Checkpoint: compare your repository root with [steps/argocd-app-of-apps](steps/argocd-app-of-apps) after initialization.
+Checkpoint: compare your repository root with [steps/07-add-cd-gitops-repository](steps/07-add-cd-gitops-repository) after initialization.
 
 ## Step 2. Create the `cicada-sense` application in the GitOps repository
 
@@ -91,7 +91,7 @@ This command creates the default review, UAT, and production directories for the
 5. `prod/apps/production/cicada-sense/`
 6. `prod/manifests/production/cicada-sense/`
 
-After scaffolding, adjust the generated files deliberately. The easiest approach is to compare them with the matching files under [steps/argocd-app-of-apps](steps/argocd-app-of-apps) and align the same fields.
+After scaffolding, adjust the generated files deliberately. The easiest approach is to compare them with the matching files under [steps/07-add-cd-gitops-repository](steps/07-add-cd-gitops-repository) and align the same fields.
 
 A practical review loop from the GitOps repository root looks like this:
 
@@ -196,7 +196,7 @@ git push
 
 Do not try to wire deployment automation yet. In this step, your goal is only to prepare the repository structure that the deployment workflow will update later.
 
-Checkpoint: compare your generated `cicada-sense` folders with the ones under [steps/argocd-app-of-apps](steps/argocd-app-of-apps).
+Checkpoint: compare your generated `cicada-sense` folders with the ones under [steps/07-add-cd-gitops-repository](steps/07-add-cd-gitops-repository).
 
 ## Step 3. Validate the GitOps repository state
 
@@ -224,13 +224,13 @@ Read:
 
 Dedicated snapshot:
 
-- [steps/argocd-app-of-apps](steps/argocd-app-of-apps)
+- [steps/07-add-cd-gitops-repository](steps/07-add-cd-gitops-repository)
 
 ## Step 4. Know the final repository content
 
 The scaffolded repository is not the final state.
 
-Once you complete [09-add-cd-application-repository.md](09-add-cd-application-repository.md), the application repository deploy workflow writes the desired deployment state into this GitOps repository.
+Once you complete [08-add-cd-application-repository.md](08-add-cd-application-repository.md), the application repository deploy workflow writes the desired deployment state into this GitOps repository.
 
 The stable layout stays the same:
 
@@ -266,7 +266,7 @@ Treat that as the final checkpoint for the `argocd-app-of-apps` repository. If t
 
 ## Next step
 
-Once the GitOps repository is ready, continue with [09-add-cd-application-repository.md](09-add-cd-application-repository.md) to implement CD in the application repository.
+Once the GitOps repository is ready, continue with [08-add-cd-application-repository.md](08-add-cd-application-repository.md) to implement CD in the application repository.
 
 ## Exit criteria
 

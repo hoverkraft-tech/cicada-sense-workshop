@@ -31,32 +31,32 @@ flowchart LR
 
 ## Journey
 
-The workshop is split into four different steps.
+The application delivery part of the workshop is split across four numbered guides: Step 05, Step 06, Step 07, and Step 08.
 
-1. Bootstrap the learner repository from the baseline and confirm it works locally
-2. Add the GitHub Actions CI workflow
-3. Create and initialize the GitOps source of truth repository and add `cicada-sense` to it
-4. Add release preparation and deployment workflows in the application repository
+1. Step 05: bootstrap the learner repository from the baseline and confirm it works locally
+2. Step 06: add the GitHub Actions CI workflow
+3. Step 07: create and initialize the GitOps source-of-truth repository and add `cicada-sense` to it
+4. Step 08: add release preparation and deployment workflows in the application repository
 
-The `steps` folders in this repository contains reference snapshots, in case you get lost or have an unexpected isuse.
-They are showing the expected state for each stage, but you won't learn much by copying it blindly.
+The `steps/` folder in this repository contains reference snapshots, in case you get lost or hit an unexpected issue.
+They show the expected state for each stage, but you won't learn much by copying them blindly.
 
-Learners should :
+Learners should:
 
 - work in their own `cicada-sense` GitHub repository in their organization
 - use the Hoverkraft docs to understand the contract
-- implement and commiting them in the dedicated repository
+- implement the changes and commit them in the dedicated repository
 - compare with the snapshots only when they need to verify their results
 
 ## Where to go next
 
 Start with the step guide that matches your current stage:
 
-1. [05-start.md](05-start.md) - prepare the baseline repository and understand the repository shape
-2. [06-add-ci.md](06-add-ci.md) - implement CI in GitHub Actions
-3. [08-add-cd-gitops-repository.md](08-add-cd-gitops-repository.md) - prepare the GitOps delivery repository and scaffold `cicada-sense`
-4. [09-add-cd-application-repository.md](09-add-cd-application-repository.md) - implement release and deployment workflows
+1. Step 05: [05-start.md](05-start.md) - prepare the baseline repository and understand the repository shape
+2. Step 06: [06-add-ci.md](06-add-ci.md) - implement CI in GitHub Actions
+3. Step 07: [07-add-cd-gitops-repository.md](07-add-cd-gitops-repository.md) - prepare the GitOps delivery repository and scaffold `cicada-sense`
+4. Step 08: [08-add-cd-application-repository.md](08-add-cd-application-repository.md) - implement release and deployment workflows
 
-Reference snapshot for the external GitOps repository:
+Reference snapshot for the external GitOps repository used in Step 07:
 
-1. `steps/argocd-app-of-apps` - initialized `argocd-app-of-apps` repository scaffolded for `cicada-sense`
+1. `steps/07-add-cd-gitops-repository` - Step 07 snapshot for the external `argocd-app-of-apps` repository scaffolded for `cicada-sense`

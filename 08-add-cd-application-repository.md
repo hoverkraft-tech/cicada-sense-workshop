@@ -1,6 +1,6 @@
-# Step 09 - Add CD (application repository)
+# Step 08 - Add CD (application repository)
 
-Goal: starting from the CI state and a ready GitOps repository, implement release and deployment workflows until you are close to [steps/09-add-cd-application-repository](steps/09-add-cd-application-repository).
+Goal: starting from the CI state and a ready GitOps repository, implement release and deployment workflows until you are close to [steps/08-add-cd-application-repository](steps/08-add-cd-application-repository).
 
 ## Outcome
 
@@ -330,7 +330,7 @@ If `release.yml` starts to look like a second `deploy.yml`, you are probably dup
 
 For this workshop target, UAT is a prerelease and production is not.
 
-Important detail: the published Hoverkraft CD guide is the source of truth. If you compare your result with [steps/09-add-cd-application-repository](steps/09-add-cd-application-repository), you will notice that the CI prerequisite in `release.yml` is still commented out in the snapshot. Treat that as temporary drift in the example step, not as the contract to copy.
+Important detail: the published Hoverkraft CD guide is the source of truth. If you compare your result with [steps/08-add-cd-application-repository](steps/08-add-cd-application-repository), you will notice that the CI prerequisite in `release.yml` is still commented out in the snapshot. Treat that as temporary drift in the example step, not as the contract to copy.
 
 Read:
 
@@ -386,7 +386,7 @@ Read:
 
 ## Step 7. Know what the target snapshot includes
 
-[steps/09-add-cd-application-repository](steps/09-add-cd-application-repository) adds only three workflows on top of [steps/06-add-ci](steps/06-add-ci):
+[steps/08-add-cd-application-repository](steps/08-add-cd-application-repository) adds only three workflows on top of [steps/06-add-ci](steps/06-add-ci):
 
 1. `prepare-release.yml`
 2. `release.yml`
@@ -409,10 +409,10 @@ Before you call this step done, confirm these points:
 5. deployment updates GitOps state instead of rebuilding images
 6. the three CD workflow files in your repository are `prepare-release.yml`, `deploy.yml`, and `release.yml`
 7. your latest CD changes are committed and pushed
-8. your result is close to [steps/09-add-cd-application-repository](steps/09-add-cd-application-repository)
+8. your result is close to [steps/08-add-cd-application-repository](steps/08-add-cd-application-repository)
 
 ## If you get stuck
 
-1. compare only the file you are currently working on with [steps/09-add-cd-application-repository](steps/09-add-cd-application-repository)
+1. compare only the file you are currently working on with [steps/08-add-cd-application-repository](steps/08-add-cd-application-repository)
 2. prefer the published contract over snapshot drift
 3. if you are rebuilding images during deploy, your flow is wrong
