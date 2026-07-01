@@ -55,6 +55,48 @@ Useful options:
 2. `DRY_RUN=1` to preview the files that would be updated before writing them
 
 This initialization step replaces the repository placeholders and removes the bootstrap script so the repository starts from a clean, usable GitOps state.
+
+Before you commit that initialized state, patch `.github/workflows/deploy.yml` for the workshop environment.
+The workshop Argo CD instance does not send deployment notifications back to GitHub, so the GitOps repository must finish deployments by itself after the initial `deploy` job succeeds.
+
+Keep the existing `deploy`, `finish-deploy`, and `clean-deploy` jobs, and add an `auto-finish-deploy` job between `deploy` and `finish-deploy`.
+That job should wait briefly, generate a GitHub App token, and dispatch a `finish-deploy` event with the deployment metadata from `deploy`.
+
+The core addition looks like this:
+
+```yaml
+   auto-finish-deploy:
+      if: ${{ github.event.action == 'deploy' }}
+      needs: deploy
+      runs-on: ubuntu-latest
+      permissions:
+         contents: write
+      steps:
+         - name: Wait before finishing deployment
+            run: sleep 120
+
+         - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+            id: generate-token
+            with:
+               client-id: ${{ vars.CI_BOT_APP_CLIENT_ID }}
+               private-key: ${{ secrets.CI_BOT_APP_PRIVATE_KEY }} # reusable workflow token override is intentional
+
+         - uses: peter-evans/repository-dispatch@28959ce8df70de7be546dd1250a005dd32156697 # v4.0.1
+            with:
+               token: ${{ steps.generate-token.outputs.token }}
+               event-type: finish-deploy
+               client-payload: |
+                  {
+                     "deployment-id": "${{ needs.deploy.outputs.deployment-id }}",
+                     "application-repository": "${{ needs.deploy.outputs.repository }}",
+                     "urls": ["https://${{ needs.deploy.outputs.url }}"],
+                     "status": "Synced",
+                     "description": "deployment successful"
+                  }
+```
+
+If you want an exact file-level reference, compare your result with [steps/07-add-cd-gitops-repository/.github/workflows/deploy.yml](steps/07-add-cd-gitops-repository/.github/workflows/deploy.yml) after the patch.
+
 Commit that initialized state before moving to the next command:
 
 ```bash
@@ -208,7 +250,8 @@ Check these points:
 2. the repository bootstrap is complete
 3. the `cicada-sense` review, UAT, and production directories exist
 4. the generated files are ready to receive the real chart and image references from the CD workflow
-5. the repository history now contains at least one commit for initialization and one for the `cicada-sense` scaffold
+5. `.github/workflows/deploy.yml` contains the workshop `auto-finish-deploy` workaround
+6. the repository history now contains at least one commit for initialization and one for the `cicada-sense` scaffold
 
 This quick check can help before you move on:
 
@@ -276,8 +319,9 @@ Before you move on, confirm these points:
 2. you ran the template bootstrap command successfully
 3. you scaffolded the `cicada-sense` application in that repository
 4. the repository now contains review, UAT, and production application directories for `cicada-sense`
-5. you committed and pushed the initialized repository state and the scaffolded application state
-6. you know which `apps/` and `manifests/` files will be updated by the deployment workflow in the next step
+5. the GitOps deploy workflow includes the `auto-finish-deploy` workshop workaround
+6. you committed and pushed the initialized repository state and the scaffolded application state
+7. you know which `apps/` and `manifests/` files will be updated by the deployment workflow in the next step
 
 ## If you get stuck
 

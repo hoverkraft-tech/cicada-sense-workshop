@@ -22,6 +22,35 @@ jobs:
     secrets:
       github-app-key: ${{ secrets.CI_BOT_APP_PRIVATE_KEY }}
 
+  auto-finish-deploy:
+    if: ${{ github.event.action == 'deploy' }}
+    needs: deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Wait before finishing deployment
+        run: sleep 120
+
+      - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        id: generate-token
+        with:
+          client-id: ${{ vars.CI_BOT_APP_CLIENT_ID }}
+          private-key: ${{ secrets.CI_BOT_APP_PRIVATE_KEY }} # zizmor: ignore[secrets-outside-env] reusable workflow token override is intentional
+
+      - uses: peter-evans/repository-dispatch@28959ce8df70de7be546dd1250a005dd32156697 # v4.0.1
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          event-type: finish-deploy
+          client-payload: |
+            {
+              "deployment-id": "${{ needs.deploy.outputs.deployment-id }}",
+              "application-repository": "${{ needs.deploy.outputs.repository }}",
+              "urls": ["https://${{ needs.deploy.outputs.url }}"],
+              "status": "Synced",
+              "description": "deployment successful"
+            }
+
   finish-deploy:
     if: ${{ github.event.action == 'finish-deploy' }}
     uses: hoverkraft-tech/ci-github-publish/.github/workflows/finish-deploy-argocd-app-of-apps.yml@607069025f6c1312680ed0864c4d9f4338b82dfe # 0.26.5

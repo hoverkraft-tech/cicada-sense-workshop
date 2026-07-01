@@ -177,7 +177,9 @@ jobs:
           { "path": ".backend.image", "image": "backend" },
           { "path": ".frontend.image", "image": "frontend" },
           { "path": ".live-data-generator.api.image", "image": "live-data-generator" },
-          { "path": ".live-data-generator.ui.image", "image": "live-data-generator" }
+          { "path": ".live-data-generator.ui.image", "image": "live-data-generator" },
+          { "path": "deploy.backend.ingress.hosts[0].host", "value": "{{ url }}" },
+          { "path": "deploy.frontend.ingress.hosts[0].host", "value": "{{ url }}" }
         ]
 ```
 
@@ -187,6 +189,7 @@ What to pay attention to in that snippet:
 2. `deploy-parameters.repository` points to `argocd-app-of-apps`
 3. the `images` block lists the three runtime images
 4. the `chart-values` block maps those images into the umbrella chart values
+5. the `chart-values` block also updates the backend and frontend review ingress hosts to `{{ url }}`, so preview deployments resolve to the generated review URL
 
 Be strict about responsibility boundaries:
 
@@ -223,8 +226,11 @@ Expected behavior:
 1. CI publishes pull-request image tags
 2. a `/deploy` comment triggers `deploy.yml`
 3. the workflow deploys to the review app URL
-4. the deployment reuses the already-built images
-5. the desired state is written to your GitOps repository
+4. the deployment also updates the backend and frontend ingress host values to that review URL
+5. the deployment reuses the already-built images
+6. the desired state is written to your GitOps repository
+
+In the workshop environment, the deployment completion signal depends on the `auto-finish-deploy` workaround added to the GitOps repository in [07-add-cd-gitops-repository.md](07-add-cd-gitops-repository.md). If the deployment stays pending in GitHub, check that workflow first.
 
 If the workflow rebuilds images, or if you only see changes in the application repository, stop there. That means the deploy contract is still wrong.
 

@@ -69,5 +69,7 @@ jobs:
           { "path": ".backend.image", "image": "backend" },
           { "path": ".frontend.image", "image": "frontend" },
           { "path": ".live-data-generator.api.image", "image": "live-data-generator" },
-          { "path": ".live-data-generator.ui.image", "image": "live-data-generator" }
+          { "path": ".live-data-generator.ui.image", "image": "live-data-generator" },
+          { "path": "deploy.backend.ingress.hosts[0].host", "value": "{{ url }}" },
+          { "path": "deploy.frontend.ingress.hosts[0].host", "value": "{{ url }}" }
         ]
