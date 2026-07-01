@@ -29,22 +29,47 @@ spec:
       prune: true
       selfHeal: true
   sources:
-    - repoURL: ghcr.io/hoverkraft-sh/cicada-sense/charts/application
+    - repoURL: ghcr.io/<organization>/cicada-sense/charts/application
       targetRevision: "" # Will be updated by deploy workflow
       chart: cicada-sense
       helm:
         values: |
-          ingress:
-            enabled: true
-            className: "traefik"
-            annotations:
-              cert-manager.io/cluster-issuer: letsencrypt
-            hosts:
-              - host: cicada-sense-review.example.com # Will be updated by deploy workflow
-                paths:
-                  - path: /
-                    pathType: ImplementationSpecific
-            tls:
-              - secretName: cicada-sense-tls
+          backend:
+            ingress:
+              enabled: true
+              className: "traefik"
+              hosts:
+                - host: cicada-sense-review.<user-xx>.hoverkraft.cloud # Will be updated by deploy workflow
+                  paths:
+                    - path: /api
+                      pathType: Prefix
+                    - path: /socket.io
+                      pathType: Prefix
+          frontend:
+            ingress:
+              enabled: true
+              className: "traefik"
+              hosts:
+                - host: cicada-sense-review.<user-xx>.hoverkraft.cloud # Will be updated by deploy workflow
+                  paths:
+                    - path: /
+                      pathType: ImplementationSpecific
+          live-data-generator:
+            api:
+              ingress:
+                enabled: true
+                className: "traefik"
                 hosts:
-                  - cicada-sense-review.example.com # Will be updated by deploy workflow
+                  - host: cicada-sense-generator-review.<user-xx>.hoverkraft.cloud # Will be updated by deploy workflow
+                    paths:
+                      - path: /api
+                        pathType: Prefix
+            ui:
+              ingress:
+                enabled: true
+                className: "traefik"
+                hosts:
+                  - host: cicada-sense-generator-review.<user-xx>.hoverkraft.cloud # Will be updated by deploy workflow
+                    paths:
+                      - path: /
+                        pathType: Prefix

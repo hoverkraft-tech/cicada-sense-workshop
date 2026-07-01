@@ -152,16 +152,30 @@ A target state close to this is expected for the application files:
 # review app template
 spec:
    destination:
-      namespace: cicada-sense-review
+      namespace: cicada-sense-review # Will be updated by deploy workflow
       server: https://dev.example.com
    sources:
-      - repoURL: ghcr.io/hoverkraft-sh/cicada-sense/charts/application
+      - repoURL: ghcr.io/<organization>/cicada-sense/charts/application
          chart: cicada-sense
          helm:
             values: |
-               ingress:
-                  hosts:
-                     - host: cicada-sense-review.example.com
+               backend:
+                  ingress:
+                     hosts:
+                        - host: cicada-sense-review.<user-xx>.hoverkraft.cloud # Will be updated by deploy workflow
+               frontend:
+                  ingress:
+                     hosts:
+                        - host: cicada-sense-review.<user-xx>.hoverkraft.cloud # Will be updated by deploy workflow
+               live-data-generator:
+                  api:
+                     ingress:
+                        hosts:
+                           - host: cicada-sense-generator-review.<user-xx>.hoverkraft.cloud # Will be updated by deploy workflow
+                  ui:
+                     ingress:
+                        hosts:
+                           - host: cicada-sense-generator-review.<user-xx>.hoverkraft.cloud # Will be updated by deploy workflow
 ```
 
 ```yaml
@@ -171,13 +185,27 @@ spec:
       namespace: cicada-sense-uat
       server: https://prod.example.com
    sources:
-      - repoURL: ghcr.io/hoverkraft-sh/cicada-sense/charts/application
+      - repoURL: ghcr.io/<organization>/cicada-sense/charts/application
          chart: cicada-sense
          helm:
             values: |
-               ingress:
-                  hosts:
-                     - host: cicada-sense-uat.example.com
+               backend:
+                  ingress:
+                     hosts:
+                        - host: cicada-sense-uat.<user-xx>.hoverkraft.cloud
+               frontend:
+                  ingress:
+                     hosts:
+                        - host: cicada-sense-uat.<user-xx>.hoverkraft.cloud
+               live-data-generator:
+                  api:
+                     ingress:
+                        hosts:
+                           - host: cicada-sense-generator-uat.<user-xx>.cigales.cloud
+                  ui:
+                     ingress:
+                        hosts:
+                           - host: cicada-sense-generator-uat.<user-xx>.cigales.cloud
 ```
 
 ```yaml
@@ -187,13 +215,27 @@ spec:
       namespace: cicada-sense-production
       server: https://prod.example.com
    sources:
-      - repoURL: ghcr.io/hoverkraft-sh/cicada-sense/charts/application
+      - repoURL: ghcr.io/<organization>/cicada-sense/charts/application
          chart: cicada-sense
          helm:
             values: |
-               ingress:
-                  hosts:
-                     - host: cicada-sense.example.com
+               backend:
+                  ingress:
+                     hosts:
+                        - host: cicada-sense.<user-xx>.hoverkraft.cloud
+               frontend:
+                  ingress:
+                     hosts:
+                        - host: cicada-sense.<user-xx>.hoverkraft.cloud
+               live-data-generator:
+                  api:
+                     ingress:
+                        hosts:
+                           - host: cicada-sense-generator.<user-xx>.cigales.cloud
+                  ui:
+                     ingress:
+                        hosts:
+                           - host: cicada-sense-generator.<user-xx>.cigales.cloud
 ```
 
 At minimum, review these files and fields:
@@ -201,21 +243,21 @@ At minimum, review these files and fields:
 1. `dev/apps/review-apps/cicada-sense/template.yml.tpl`
    - `spec.destination.server`: the dev cluster URL
    - `spec.sources[0].repoURL`: the chart repository reference used for this workshop
-   - the review ingress host names under `helm.values.ingress.hosts` and `helm.values.ingress.tls.hosts`
+   - the review ingress host names under `helm.values.backend.ingress.hosts`, `helm.values.frontend.ingress.hosts`, `helm.values.live-data-generator.api.ingress.hosts`, and `helm.values.live-data-generator.ui.ingress.hosts`
 2. `dev/manifests/review-apps/cicada-sense/template.yml.tpl`
    - the review namespace name
    - the matching `app.kubernetes.io/instance` annotation
 3. `prod/apps/uat/cicada-sense/cicada-sense.yml`
    - `spec.destination.namespace`: `cicada-sense-uat`
    - `spec.destination.server`: the production cluster URL used for UAT in this workshop
-   - the UAT ingress host names
+   - the UAT ingress host names for backend, frontend, and live-data-generator
 4. `prod/manifests/uat/cicada-sense/cicada-sense.yml`
    - the namespace name
    - the matching `app.kubernetes.io/instance` annotation
 5. `prod/apps/production/cicada-sense/cicada-sense.yml`
    - `spec.destination.namespace`: `cicada-sense-production`
    - `spec.destination.server`: the production cluster URL
-   - the production ingress host names
+   - the production ingress host names for backend, frontend, and live-data-generator
 6. `prod/manifests/production/cicada-sense/cicada-sense.yml`
    - the namespace name
    - the matching `app.kubernetes.io/instance` annotation
