@@ -103,40 +103,54 @@ The full process can take up to 300 seconds. While Terragrunt is waiting, do not
 
 Work through these steps in order:
 
-1. Prepare the `infrastructure` repository root.
-  - Open a terminal in the `infrastructure` repository.
-  - Run `mise trust`.
-  - Run `mise install`.
-2. Move to the tools landing zone.
-  - Run `cd landing-zones/tools`.
-3. Start the provisioning process.
-  - Run `mise trust`.
-  - Run `mise install`.
-  - Run `terragrunt init --all`.
-  - Run `terragrunt apply --all`.
-  - Answer `yes` when Terragrunt shows the plan and asks for confirmation.
-4. Wait for the cluster request to complete.
-  - You should see a `wait-for-k8s` step with a countdown up to 300 seconds.
-  - Then wait for the batch process to satisfy the request.
-  - When everything succeeds, Terragrunt should finish and give you back your prompt.
+1. Prepare the `infrastructure` repository root
+
+- Open a terminal in the `infrastructure` repository
+- Run `mise trust`
+- Run `mise install`
+
+2. Move to the tools landing zone
+
+- Run `cd landing-zones/tools`
+
+3. Start the provisioning process
+
+- Run `mise trust`
+- Run `mise install`
+- Run `terragrunt init --all`
+- Run `terragrunt apply --all`
+- Answer `yes` when Terragrunt shows the plan and asks for confirmation
+
+4. Wait for the cluster request to complete
+
+- You should see a `wait-for-k8s` step with a countdown up to 300 seconds.
+- Then wait for the batch process to satisfy the request.
+- When everything succeeds, Terragrunt should finish and give you back your prompt.
 
 If the prompt returns with an error, stop there and fix that problem before moving on to validation.
 
 ## Validation
 
-Validate in this order:
+You can validate your setup doing the following steps:
 
 1. run `kubectl config get-contexts` and confirm that a context named `tools` exists
 2. run `kubectl get nodes` and confirm that Kubernetes returns worker nodes
-3. access the URL https://argocd.\<your base domain\>
 
-If step 1 fails, do not troubleshoot the Argo CD URL yet. First make sure the kubeconfig was written correctly.
+If step 1 fails, do not continue.
+First make sure the kubeconfig was written correctly.
+
+### GitOps validation
+
+You should now be able to access the argocd URL mentionned in the credentials spreadsheet.
 
 You can retrieve the argocd credentials using the following command: `mise run argocd:get-initial-admin-secret` (the user is admin).
 
-Once you open Argo CD, you should see an application in an `Unknown` state. This is expected at this stage: the platform is running, but the source-of-truth GitOps repository has not been created yet, so Argo CD cannot resolve that application fully.
+Once you open Argo CD, you should see an application in an `Unknown` state.
+This is expected at this stage: the platform is running, but the source-of-truth GitOps repository has not been created yet, so Argo CD cannot resolve that application fully.
 
-When this step is done, open a terminal in the `infrastructure` repository root and commit then push your changes:
+### Commititng the changes
+
+When all steps are done, open a terminal in the `infrastructure` repository root and commit then push your changes:
 
 ```bash
 git add .
@@ -144,6 +158,6 @@ git commit -m "feat: configure tools environment"
 git push
 ```
 
-At the end of this step, you should have a reachable `tools` cluster, a working `tools` kubeconfig context, and access to the Argo CD URL.
+## Exit criteria
 
-
+At the end of this step, you should have a reachable `tools` cluster, a working `tools` kubeconfig context, and be able to access to the Argo CD URL.
