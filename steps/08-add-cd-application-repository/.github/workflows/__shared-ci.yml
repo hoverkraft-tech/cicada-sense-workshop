@@ -90,6 +90,7 @@ jobs:
             image: live-data-generator-ci
             path: ./application/live-data-generator
     with:
+      dependency-review: false
       working-directory: /usr/src/app
       container: |
         {

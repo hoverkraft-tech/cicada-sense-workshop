@@ -130,6 +130,7 @@ jobs:
             image: live-data-generator-ci
             path: ./application/live-data-generator
     with:
+      dependency-review: false
       working-directory: /usr/src/app
       container: |
         {
@@ -144,6 +145,8 @@ jobs:
     secrets:
       container-password: ${{ secrets.GITHUB_TOKEN }}
 ```
+
+Set `dependency-review: false` here for the workshop. The reusable Node.js CI workflow enables dependency review by default, but this workshop does not configure that check and should keep the CI example focused on the lint, typecheck, test, and scan stages you have already wired.
 
 `build`:
 
