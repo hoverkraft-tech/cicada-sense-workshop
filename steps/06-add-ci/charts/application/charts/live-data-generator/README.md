@@ -81,10 +81,7 @@ Cicada Sense live data generator workloads
 | api.probes.startup.periodSeconds                      | int    | `5`                                                                                                           |             |
 | api.probes.startup.timeoutSeconds                     | int    | `5`                                                                                                           |             |
 | api.replicaCount                                      | int    | `1`                                                                                                           |             |
-| api.resources.limits.cpu                              | string | `"500m"`                                                                                                      |             |
-| api.resources.limits.memory                           | string | `"512Mi"`                                                                                                     |             |
-| api.resources.requests.cpu                            | string | `"100m"`                                                                                                      |             |
-| api.resources.requests.memory                         | string | `"128Mi"`                                                                                                     |             |
+| api.resources                                         | object | `{}`                                                                                                          |             |
 | api.revisionHistoryLimit                              | int    | `10`                                                                                                          |             |
 | api.service.annotations                               | object | `{}`                                                                                                          |             |
 | api.service.enabled                                   | bool   | `true`                                                                                                        |             |
@@ -184,10 +181,7 @@ Cicada Sense live data generator workloads
 | ui.probes.startup.periodSeconds                       | int    | `5`                                                                                                           |             |
 | ui.probes.startup.timeoutSeconds                      | int    | `5`                                                                                                           |             |
 | ui.replicaCount                                       | int    | `1`                                                                                                           |             |
-| ui.resources.limits.cpu                               | string | `"250m"`                                                                                                      |             |
-| ui.resources.limits.memory                            | string | `"256Mi"`                                                                                                     |             |
-| ui.resources.requests.cpu                             | string | `"50m"`                                                                                                       |             |
-| ui.resources.requests.memory                          | string | `"64Mi"`                                                                                                      |             |
+| ui.resources                                          | object | `{}`                                                                                                          |             |
 | ui.revisionHistoryLimit                               | int    | `10`                                                                                                          |             |
 | ui.service.annotations                                | object | `{}`                                                                                                          |             |
 | ui.service.enabled                                    | bool   | `true`                                                                                                        |             |

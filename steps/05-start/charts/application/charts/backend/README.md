@@ -79,10 +79,7 @@ Cicada Sense backend API workload
 | probes.startup.periodSeconds                      | int    | `5`                          |             |
 | probes.startup.timeoutSeconds                     | int    | `5`                          |             |
 | replicaCount                                      | int    | `1`                          |             |
-| resources.limits.cpu                              | string | `"500m"`                     |             |
-| resources.limits.memory                           | string | `"512Mi"`                    |             |
-| resources.requests.cpu                            | string | `"100m"`                     |             |
-| resources.requests.memory                         | string | `"128Mi"`                    |             |
+| resources                                         | object | `{}`                         |             |
 | revisionHistoryLimit                              | int    | `10`                         |             |
 | service.annotations                               | object | `{}`                         |             |
 | service.enabled                                   | bool   | `true`                       |             |
