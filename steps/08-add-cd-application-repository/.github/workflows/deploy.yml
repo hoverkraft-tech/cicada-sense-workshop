@@ -21,8 +21,9 @@ permissions: {}
 jobs:
   deploy:
     name: Deploy
-    uses: hoverkraft-tech/ci-github-publish/.github/workflows/deploy-chart.yml@ed354ada70b9f518c2bb663e18a80041c2cf5156 # 0.27.1
+    uses: hoverkraft-tech/ci-github-publish/.github/workflows/deploy-chart.yml@80fa7011b27f49f2e04a19f932d36047d17a28f2 # 3.0.7
     permissions:
+      attestations: write
       actions: read
       contents: write
       deployments: write

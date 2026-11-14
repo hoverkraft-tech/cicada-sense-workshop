@@ -13,7 +13,7 @@ concurrency:
 jobs:
   deploy:
     if: ${{ github.event.action == 'deploy' }}
-    uses: hoverkraft-tech/ci-github-publish/.github/workflows/deploy-argocd-app-of-apps.yml@607069025f6c1312680ed0864c4d9f4338b82dfe # 0.26.5
+    uses: hoverkraft-tech/ci-github-publish/.github/workflows/deploy-argocd-app-of-apps.yml@80fa7011b27f49f2e04a19f932d36047d17a28f2 # 3.0.7
     permissions:
       contents: read
       pull-requests: write
@@ -32,10 +32,11 @@ jobs:
       - name: Wait before finishing deployment
         run: sleep 180
 
-      - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+      - uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
         id: generate-token
         with:
           client-id: ${{ vars.CI_BOT_APP_CLIENT_ID }}
+          permission-contents: write
           private-key: ${{ secrets.CI_BOT_APP_PRIVATE_KEY }} # zizmor: ignore[secrets-outside-env] reusable workflow token override is intentional
 
       - uses: peter-evans/repository-dispatch@28959ce8df70de7be546dd1250a005dd32156697 # v4.0.1
@@ -53,7 +54,7 @@ jobs:
 
   finish-deploy:
     if: ${{ github.event.action == 'finish-deploy' }}
-    uses: hoverkraft-tech/ci-github-publish/.github/workflows/finish-deploy-argocd-app-of-apps.yml@607069025f6c1312680ed0864c4d9f4338b82dfe # 0.26.5
+    uses: hoverkraft-tech/ci-github-publish/.github/workflows/finish-deploy-argocd-app-of-apps.yml@80fa7011b27f49f2e04a19f932d36047d17a28f2 # 3.0.7
     permissions:
       actions: read
       contents: read
@@ -67,7 +68,7 @@ jobs:
 
   clean-deploy:
     if: ${{ github.event.action == 'clean-deploy' }}
-    uses: hoverkraft-tech/ci-github-publish/.github/workflows/clean-deploy-argocd-app-of-apps.yml@607069025f6c1312680ed0864c4d9f4338b82dfe # 0.26.5
+    uses: hoverkraft-tech/ci-github-publish/.github/workflows/clean-deploy-argocd-app-of-apps.yml@80fa7011b27f49f2e04a19f932d36047d17a28f2 # 3.0.7
     permissions:
       contents: read
       pull-requests: write

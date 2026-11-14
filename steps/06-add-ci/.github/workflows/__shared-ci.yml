@@ -8,8 +8,9 @@ permissions: {}
 
 jobs:
   build-ci:
-    uses: hoverkraft-tech/ci-github-container/.github/workflows/docker-build-images.yml@f8255a6a37eb141fa331527f5aed9b9e1d598c77 # 0.38.0
+    uses: hoverkraft-tech/ci-github-container/.github/workflows/docker-build-images.yml@988ccc2b85dec5822e801d7bc0622cad7cc94870 # 4.1.0
     permissions:
+      attestations: write
       contents: read
       packages: write
       issues: read
@@ -47,7 +48,7 @@ jobs:
 
   continuous-integration:
     name: Continuous Integration - ${{ matrix.application }}
-    uses: hoverkraft-tech/ci-github-nodejs/.github/workflows/continuous-integration.yml@df348077afa4e79725151d50606e9dc63f86dcb6 # 0.24.4
+    uses: hoverkraft-tech/ci-github-nodejs/.github/workflows/continuous-integration.yml@98d91b1cc347efc64cd5fb20bc0ebc076acad114 # 3.1.0
     needs: build-ci
     permissions:
       contents: read
@@ -86,8 +87,9 @@ jobs:
 
   build:
     needs: continuous-integration
-    uses: hoverkraft-tech/ci-github-container/.github/workflows/docker-build-images.yml@f8255a6a37eb141fa331527f5aed9b9e1d598c77 # 0.38.0
+    uses: hoverkraft-tech/ci-github-container/.github/workflows/docker-build-images.yml@988ccc2b85dec5822e801d7bc0622cad7cc94870 # 4.1.0
     permissions:
+      attestations: write
       contents: read
       packages: write
       issues: read
@@ -125,21 +127,17 @@ jobs:
 
   tests-charts:
     name: Tests - Charts
-    runs-on: ubuntu-latest
-    needs:
-      - build
+    needs: build
+    uses: hoverkraft-tech/ci-github-container/.github/workflows/helm-chart-ci.yml@988ccc2b85dec5822e801d7bc0622cad7cc94870 # 4.1.0
     permissions:
       contents: read
       packages: read
-    steps:
-      - name: Test helm charts
-        uses: hoverkraft-tech/ci-github-container/actions/helm/test-chart@f8255a6a37eb141fa331527f5aed9b9e1d598c77 # 0.38.0
-        with:
-          helm-set: |
-            backend.image=${{ fromJSON(needs.build.outputs.built-images).backend.images[0] }}
-            frontend.image=${{ fromJSON(needs.build.outputs.built-images).frontend.images[0] }}
-            live-data-generator.api.image=${{ fromJSON(needs.build.outputs.built-images)['live-data-generator'].images[0] }}
-            live-data-generator.ui.image=${{ fromJSON(needs.build.outputs.built-images)['live-data-generator'].images[0] }}
-            global.imagePullSecrets[0].name=regcred
-          oci-registry: ${{ vars.OCI_REGISTRY }}
-          oci-registry-password: ${{ github.token }}
+    with:
+      path: charts/application
+      helm-set: |
+        backend.image=${{ fromJSON(needs.build.outputs.built-images).backend.images[0] }}
+        frontend.image=${{ fromJSON(needs.build.outputs.built-images).frontend.images[0] }}
+        live-data-generator.api.image=${{ fromJSON(needs.build.outputs.built-images)['live-data-generator'].images[0] }}
+        live-data-generator.ui.image=${{ fromJSON(needs.build.outputs.built-images)['live-data-generator'].images[0] }}
+        global.imagePullSecrets[0].name=regcred
+      oci-registry: ${{ vars.OCI_REGISTRY }}

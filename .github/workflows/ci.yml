@@ -1,0 +1,42 @@
+name: Validate workflow examples
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  workflows:
+    uses: hoverkraft-tech/ci-github-common/.github/workflows/linter.yml@d606f77fad305ef07dfde3db5270f5e324019c97 # 4.2.4
+    permissions:
+      actions: read
+      contents: read
+      issues: write
+      packages: read
+      pull-requests: write
+      security-events: write
+      statuses: write
+    with:
+      action-files: |
+        .github/workflows/*.yml
+        steps/*/.github/workflows/*.yml
+      # The runnable application checks remain in each standalone workshop step.
+      linter-env: |
+        VALIDATE_JAVASCRIPT_TOOLCHAIN=
+        VALIDATE_PYTHON_TOOLCHAIN=
+        VALIDATE_GITHUB_ACTIONS=true
+        VALIDATE_GITHUB_ACTIONS_ZIZMOR=true
+        VALIDATE_YAML=true
+        VALIDATE_YAML_PRETTIER=true
+        VALIDATE_JSON=true
+        VALIDATE_JSON_PRETTIER=true
+        VALIDATE_GIT_COMMITLINT=true
+        VALIDATE_GIT_MERGE_CONFLICT_MARKERS=true
+        VALIDATE_GITLEAKS=true
+        FILTER_REGEX_INCLUDE=(/\.github/workflows/|/\.commitlintrc\.json$)
