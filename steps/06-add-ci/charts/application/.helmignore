@@ -1,0 +1,2 @@
+# Local dependencies are packaged from their sources, not generated archive copies.
+charts/*.tgz
