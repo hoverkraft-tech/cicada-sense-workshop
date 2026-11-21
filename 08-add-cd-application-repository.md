@@ -100,7 +100,7 @@ permissions: {}
 
 jobs:
   release:
-    uses: hoverkraft-tech/ci-github-publish/.github/workflows/prepare-release.yml@ed354ada70b9f518c2bb663e18a80041c2cf5156 # 0.27.1
+    uses: hoverkraft-tech/ci-github-publish/.github/workflows/prepare-release.yml@d034b96d52f6f32c58a93bcd87a06932f50d8b26 # 3.1.0
     permissions:
       contents: read
       pull-requests: write
@@ -159,7 +159,7 @@ permissions: {}
 jobs:
   deploy:
     name: Deploy
-    uses: hoverkraft-tech/ci-github-publish/.github/workflows/deploy-chart.yml@ed354ada70b9f518c2bb663e18a80041c2cf5156 # 0.27.1
+    uses: hoverkraft-tech/ci-github-publish/.github/workflows/deploy-chart.yml@d034b96d52f6f32c58a93bcd87a06932f50d8b26 # 3.1.0
     permissions:
       actions: read
       contents: write
@@ -350,7 +350,7 @@ jobs:
       tag: ${{ steps.create-release.outputs.tag }}
     steps:
       - id: create-release
-        uses: hoverkraft-tech/ci-github-publish/actions/release/create@ed354ada70b9f518c2bb663e18a80041c2cf5156 # 3.1.0
+        uses: hoverkraft-tech/ci-github-publish/actions/release/create@d034b96d52f6f32c58a93bcd87a06932f50d8b26 # 3.1.0
         with:
           prerelease: ${{ inputs.environment == 'uat' }}
 
