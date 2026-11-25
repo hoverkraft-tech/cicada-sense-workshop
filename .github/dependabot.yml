@@ -1,0 +1,17 @@
+version: 2
+
+updates:
+  - package-ecosystem: github-actions
+    directories:
+      - "/"
+      - "/steps/*"
+    cooldown:
+      default-days: 7
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: build
+      include: scope
+    groups:
+      github-actions:
+        patterns: ["*"]

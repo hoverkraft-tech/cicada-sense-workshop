@@ -18,8 +18,9 @@ permissions: {}
 jobs:
   ci:
     name: Continuous Integration
-    uses: ./.github/workflows/__shared-ci.yml
+    uses: $/.github/workflows/__shared-ci.yml
     permissions:
+      attestations: write
       actions: read
       checks: write
       contents: read
@@ -48,7 +49,7 @@ jobs:
   deploy:
     name: Deploy
     needs: [release]
-    uses: ./.github/workflows/deploy.yml
+    uses: $/.github/workflows/deploy.yml
     permissions:
       actions: read
       attestations: write
